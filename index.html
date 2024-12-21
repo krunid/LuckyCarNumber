@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เลขมงคลทะเบียนรถ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, red, orange, yellow, green, blue, indigo, violet);
+      color: white;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    button {
+      background: linear-gradient(to right, #8B4513, #D2B48C);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>เลขมงคลทะเบียนรถ 🚗</h1>
+    <p>เลือกวิธีการคำนวณ:</p>
+    <button onclick="randomNumber()">แบบสุ่มตัวเลข 🎲</button>
+    <button onclick="manualInput()">แบบเติมเลขเอง ✍️</button>
+
+    <div id="input-area" style="margin-top: 20px;"></div>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function randomNumber() {
+      const number = Math.floor(Math.random() * 9999) + 1;
+      calculateLuckyNumber(number, 'สุ่ม');
+    }
+
+    function manualInput() {
+      const inputArea = document.getElementById('input-area');
+      inputArea.innerHTML = `
+        <p>กรอกเลขทะเบียน (1 ถึง 4 หลัก):</p>
+        <input type="number" id="manual-number" maxlength="4" min="1" max="9999" />
+        <button onclick="submitManualNumber()">คำนวณ ✅</button>
+      `;
+    }
+
+    function submitManualNumber() {
+      const number = document.getElementById('manual-number').value;
+      if (number >= 1 && number <= 9999) {
+        calculateLuckyNumber(number, 'เติมเอง');
+      } else {
+        alert('กรุณากรอกเลขทะเบียนให้ถูกต้อง!');
+      }
+    }
+
+    function calculateLuckyNumber(number, type) {
+      const digits = String(number).split('').map(Number);
+      const pairs = [
+        digits.slice(0, 2), // คู่หน้า
+        digits.slice(-2), // คู่หลัง
+        digits.length > 3 ? digits.slice(1, -1) : [] // คู่กลาง
+      ];
+
+      let intermediateSums = pairs.map(pair => {
+        let sum = pair.reduce((a, b) => a + b, 0);
+        while (sum > 9) sum = String(sum).split('').reduce((a, b) => a + Number(b), 0);
+        return sum;
+      });
+
+      let totalSum = intermediateSums.reduce((a, b) => a + b, 0);
+      while (totalSum > 9) totalSum = String(totalSum).split('').reduce((a, b) => a + Number(b), 0);
+
+      displayResult(number, type, intermediateSums, totalSum);
+    }
+
+    function displayResult(number, type, steps, totalSum) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `
+        <p>วิธีการคำนวณแบบ: ${type}</p>
+        <p>เลขทะเบียน: ${number}</p>
+        <p>ผลรวมเลขคู่หน้า: ${steps[0] || 0}</p>
+        <p>ผลรวมเลขคู่หลัง: ${steps[1] || 0}</p>
+        <p>ผลรวมเลขคู่กลาง: ${steps[2] || 0}</p>
+        <p>ผลรวมสุดท้าย: ${totalSum} 🌟</p>
+      `;
+    }
+  </script>
+</body>
+</html>
