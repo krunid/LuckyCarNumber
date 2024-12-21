@@ -95,17 +95,20 @@
                 let sum = 0;
 
                 // Add front digits
-                sum += sumDigits(digits[0]);
-                calcDetail += `เลขคู่หน้า: ${digits[0]} -> ${sumDigits(digits[0])} <br>`;
+                let frontSum = sumDigits(digits[0]);
+                sum += frontSum;
+                calcDetail += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum} <br>`;
 
                 // Add back digits
-                sum += sumDigits(digits[digits.length - 1]);
-                calcDetail += `เลขคู่หลัง: ${digits[digits.length - 1]} -> ${sumDigits(digits[digits.length - 1])} <br>`;
+                let backSum = sumDigits(digits[digits.length - 1]);
+                sum += backSum;
+                calcDetail += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum} <br>`;
 
                 // Add middle digits if any
                 if (digits.length > 2) {
-                    sum += sumDigits(digits[1]);
-                    calcDetail += `เลขคู่กลาง: ${digits[1]} -> ${sumDigits(digits[1])} <br>`;
+                    let middleSum = sumDigits(digits[1]);
+                    sum += middleSum;
+                    calcDetail += `เลขคู่กลาง: ${digits[1]} + 0 = ${middleSum} <br>`;
                 }
 
                 // Final sum
@@ -115,10 +118,10 @@
 
                 // Step-by-step calculation explanation
                 calcDetail += `<br><b>วิธีคำนวณแบบที่ 1:</b><br>`;
-                calcDetail += `1. บวกเลขคู่หน้า: ${digits[0]} -> ${sumDigits(digits[0])}<br>`;
-                calcDetail += `2. บวกเลขคู่หลัง: ${digits[digits.length - 1]} -> ${sumDigits(digits[digits.length - 1])}<br>`;
+                calcDetail += `1. บวกเลขคู่หน้า: ${digits[0]} + 0 = ${frontSum}<br>`;
+                calcDetail += `2. บวกเลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum}<br>`;
                 if (digits.length > 2) {
-                    calcDetail += `3. บวกเลขคู่กลาง: ${digits[1]} -> ${sumDigits(digits[1])}<br>`;
+                    calcDetail += `3. บวกเลขคู่กลาง: ${digits[1]} + 0 = ${middleSum}<br>`;
                 }
                 calcDetail += `4. รวมผล: ${sum} -> ${calcResult}<br>`;
             }
@@ -128,12 +131,14 @@
                 let sum = 0;
 
                 // Add front digits
-                sum += sumDigits(digits[0]);
-                calcDetail += `เลขคู่หน้า: ${digits[0]} -> ${sumDigits(digits[0])} <br>`;
+                let frontSum = sumDigits(digits[0]);
+                sum += frontSum;
+                calcDetail += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum} <br>`;
 
                 // Add back digits
-                sum += sumDigits(digits[digits.length - 1]);
-                calcDetail += `เลขคู่หลัง: ${digits[digits.length - 1]} -> ${sumDigits(digits[digits.length - 1])} <br>`;
+                let backSum = sumDigits(digits[digits.length - 1]);
+                sum += backSum;
+                calcDetail += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum} <br>`;
 
                 // Final sum
                 calcResult = sumDigits(sum);
@@ -142,8 +147,8 @@
 
                 // Step-by-step calculation explanation
                 calcDetail += `<br><b>วิธีคำนวณแบบที่ 2:</b><br>`;
-                calcDetail += `1. บวกเลขคู่หน้า: ${digits[0]} -> ${sumDigits(digits[0])}<br>`;
-                calcDetail += `2. บวกเลขคู่หลัง: ${digits[digits.length - 1]} -> ${sumDigits(digits[digits.length - 1])}<br>`;
+                calcDetail += `1. บวกเลขคู่หน้า: ${digits[0]} + 0 = ${frontSum}<br>`;
+                calcDetail += `2. บวกเลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum}<br>`;
                 calcDetail += `3. รวมผล: ${sum} -> ${calcResult}<br>`;
             }
 
