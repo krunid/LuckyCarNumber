@@ -7,25 +7,39 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('https://cdn.pixabay.com/photo/2020/11/14/14/12/car-5741871_640.jpg'); /* เปลี่ยน URL ให้เป็นลิงค์ของภาพที่ต้องการใช้ */
+            position: relative;
+            text-align: center;
+            padding: 50px;
+            color: white;
+        }
+
+        /* การตั้งค่าสำหรับพื้นหลังรถ */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.pixabay.com/photo/2020/11/06/19/08/car-5718678_640.jpg'); /* เปลี่ยน URL ให้เป็นลิงค์ของภาพที่ต้องการใช้ */
             background-size: cover;
             background-position: center;
             filter: blur(5px); /* ลดความคมชัด 60% */
             z-index: -1; /* วางให้ภาพอยู่ด้านหลังเนื้อหาทั้งหมด */
             opacity: 0.4; /* เพิ่มความทึบให้กับภาพ */
-            text-align: center;
-            padding: 50px;
-            color: white;
         }
+
         h1 {
             font-size: 36px;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
+
         label {
             font-size: 18px;
             margin-bottom: 10px;
         }
+
         #numberInput {
             padding: 15px;
             font-size: 18px;
@@ -35,6 +49,7 @@
             width: 200px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         button {
             background: #8B4513;
             color: white;
@@ -46,9 +61,11 @@
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         button:hover {
             background: #6B3D2C;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -61,6 +78,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             padding-top: 50px;
         }
+
         .modal-content {
             background-color: #2e8b57;
             color: white;
@@ -70,6 +88,7 @@
             width: 80%;
             text-align: left;
         }
+
         .close {
             color: white;
             float: right;
@@ -77,6 +96,7 @@
             font-weight: bold;
             cursor: pointer;
         }
+
         .close:hover,
         .close:focus {
             color: #999;
@@ -180,13 +200,13 @@
         }
 
         function getMeaning(result) {
-            // แสดงความหมายของเลขมงคลตามผลลัพธ์ที่ได้ (จาก 0-9)
-            let meanings = {
-                "0": "เลขมงคลที่ช่วยให้มีการเริ่มต้นใหม่และความสมดุล",
-                "1": "เลขมงคลที่ให้ความโชคดีและความสำเร็จในทุกด้าน",
-                "2": "เลขมงคลที่ส่งเสริมความรักและความสัมพันธ์",
-                "3": "เลขมงคลที่ช่วยส่งเสริมความคิดสร้างสรรค์และโชคลาภ",
-                "4": "เลขมงคลสำหรับความเจริญเติบโตและความมั่นคง",
+            // แสดงความหมายของเลขมงคล
+            const meanings = {
+                "0": "เลขมงคลที่นำความสุขและโชคลาภ",
+                "1": "เลขมงคลที่เสริมพลังในการเริ่มต้นใหม่",
+                "2": "เลขมงคลสำหรับความร่วมมือและการสนับสนุน",
+                "3": "เลขมงคลสำหรับการเจริญเติบโตและความมั่นคง",
+                "4": "เลขมงคลที่ช่วยเสริมการพัฒนาและความมั่นคง",
                 "5": "เลขมงคลที่ช่วยให้มีการพัฒนาและความเติบโตในชีวิต",
                 "6": "เลขมงคลที่เสริมความสัมพันธ์และความสมดุลในชีวิต",
                 "7": "เลขมงคลที่เสริมสร้างความมั่งคั่งและความสุข",
@@ -200,5 +220,6 @@
             document.getElementById("resultModal").style.display = "none";
         }
     </script>
+
 </body>
 </html>
