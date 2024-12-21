@@ -44,6 +44,12 @@
             margin-top: 20px;
             color: yellow;
         }
+        .calc-detail {
+            font-size: 18px;
+            color: #f0e68c;
+            text-align: left;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +67,7 @@
         <br><br>
         <div id="result"></div>
         <div id="meaning" class="meaning"></div>
-        <div id="calcDetail"></div>
+        <div id="calcDetail" class="calc-detail"></div>
     </div>
 
     <script>
@@ -106,6 +112,15 @@
                 calcResult = sumDigits(sum);
                 calcDetail += `ผลรวม: ${sum} -> ${calcResult} <br>`;
                 luckyMeaning = getMeaning(calcResult);
+
+                // Step-by-step calculation explanation
+                calcDetail += `<br><b>วิธีคำนวณแบบที่ 1:</b><br>`;
+                calcDetail += `1. บวกเลขคู่หน้า: ${digits[0]} -> ${sumDigits(digits[0])}<br>`;
+                calcDetail += `2. บวกเลขคู่หลัง: ${digits[digits.length - 1]} -> ${sumDigits(digits[digits.length - 1])}<br>`;
+                if (digits.length > 2) {
+                    calcDetail += `3. บวกเลขคู่กลาง: ${digits[1]} -> ${sumDigits(digits[1])}<br>`;
+                }
+                calcDetail += `4. รวมผล: ${sum} -> ${calcResult}<br>`;
             }
 
             // Method 2: Calculation
@@ -124,6 +139,12 @@
                 calcResult = sumDigits(sum);
                 calcDetail += `ผลรวม: ${sum} -> ${calcResult} <br>`;
                 luckyMeaning = getMeaning(calcResult);
+
+                // Step-by-step calculation explanation
+                calcDetail += `<br><b>วิธีคำนวณแบบที่ 2:</b><br>`;
+                calcDetail += `1. บวกเลขคู่หน้า: ${digits[0]} -> ${sumDigits(digits[0])}<br>`;
+                calcDetail += `2. บวกเลขคู่หลัง: ${digits[digits.length - 1]} -> ${sumDigits(digits[digits.length - 1])}<br>`;
+                calcDetail += `3. รวมผล: ${sum} -> ${calcResult}<br>`;
             }
 
             document.getElementById('result').innerHTML = `เลขมงคล: ${calcResult}`;
