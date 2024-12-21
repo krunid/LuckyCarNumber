@@ -92,6 +92,7 @@
             // Method 2
             let method2Result = calculateMethod2(numberArray);
 
+            // Show results in modal
             document.getElementById("method1Result").innerText = method1Result;
             document.getElementById("method2Result").innerText = method2Result;
 
@@ -107,6 +108,9 @@
             let totalSum = firstPairSum + lastPairSum + middlePairSum;
             totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
 
+            // Ensure the result is 4 digits
+            totalSum = totalSum.toString().padStart(4, '0'); // เติม 0 ไปข้างหน้าหากมีน้อยกว่า 4 หลัก
+
             return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
                 `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
                 `เลขคู่กลาง: ${numberArray[1]} + ${numberArray[2]} = ${middlePairSum}\n` +
@@ -120,6 +124,9 @@
 
             let totalSum = firstPairSum + lastPairSum;
             totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
+
+            // Ensure the result is 4 digits
+            totalSum = totalSum.toString().padStart(4, '0'); // เติม 0 ไปข้างหน้าหากมีน้อยกว่า 4 หลัก
 
             return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
                 `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
