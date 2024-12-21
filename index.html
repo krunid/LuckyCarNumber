@@ -50,6 +50,37 @@
             text-align: left;
             margin-top: 20px;
         }
+        /* Fullscreen result section */
+        #resultModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        #resultModalContent {
+            background: white;
+            color: black;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 80%;
+            text-align: left;
+        }
+        #closeBtn {
+            background: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -64,10 +95,16 @@
     <div class="result-section">
         <button class="button" onclick="calculateLuckyNumber(1)">คำนวณแบบที่ 1 🧮</button>
         <button class="button" onclick="calculateLuckyNumber(2)">คำนวณแบบที่ 2 🧮</button>
-        <br><br>
-        <div id="result"></div>
-        <div id="meaning" class="meaning"></div>
-        <div id="calcDetail" class="calc-detail"></div>
+    </div>
+
+    <!-- Fullscreen Modal for displaying results -->
+    <div id="resultModal">
+        <div id="resultModalContent">
+            <div id="result"></div>
+            <div id="meaning" class="meaning"></div>
+            <div id="calcDetail" class="calc-detail"></div>
+            <button id="closeBtn" onclick="closeModal()">ปิด</button>
+        </div>
     </div>
 
     <script>
@@ -152,9 +189,13 @@
                 calcDetail += `3. รวมผล: ${sum} -> ${calcResult}<br>`;
             }
 
+            // Display results in the modal
             document.getElementById('result').innerHTML = `เลขมงคล: ${calcResult}`;
             document.getElementById('meaning').innerHTML = `ความหมายของเลขมงคล: ${luckyMeaning}`;
             document.getElementById('calcDetail').innerHTML = `วิธีคำนวณ: <br>${calcDetail}`;
+
+            // Show modal
+            document.getElementById('resultModal').style.display = 'flex';
         }
 
         // Function to sum the digits of a number and apply the rule to get a result < 10
@@ -179,6 +220,11 @@
                 9: "เลข 9 แสดงถึงการบรรลุเป้าหมายและความสำเร็จสูงสุด"
             };
             return meanings[num] || "เลขมงคลหมายถึงความโชคดีและความเจริญรุ่งเรือง";
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
         }
     </script>
 </body>
