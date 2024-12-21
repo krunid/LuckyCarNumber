@@ -97,8 +97,10 @@
             <p id="meaning"></p>
             <h3>คำนวณแบบที่ 1:</h3>
             <p id="method1Result"></p>
+            <p id="method1Meaning"></p>
             <h3>คำนวณแบบที่ 2:</h3>
             <p id="method2Result"></p>
+            <p id="method2Meaning"></p>
         </div>
     </div>
 
@@ -120,16 +122,16 @@
             let method1Result = calculateMethod1(numberArray);
             let method2Result = calculateMethod2(numberArray);
 
-            // ผลลัพธ์สุดท้าย (เลือกผลลัพธ์ที่ได้จากทั้งสองวิธี)
-            let finalResult = method1Result.result; // สามารถเลือก method1 หรือ method2 ตามที่ต้องการ
-
-            // แสดงความหมายตามผลลัพธ์ที่ได้
-            let meaning = getMeaning(finalResult);
-            document.getElementById("meaning").innerText = meaning;
+            // แสดงความหมายของเลขมงคลตามผลลัพธ์ที่ได้จากแต่ละวิธี
+            let method1Meaning = getMeaning(method1Result.result);
+            let method2Meaning = getMeaning(method2Result.result);
 
             // Show results in modal
             document.getElementById("method1Result").innerText = method1Result.methodText;
+            document.getElementById("method1Meaning").innerText = `ความหมาย: ${method1Meaning}`;
+
             document.getElementById("method2Result").innerText = method2Result.methodText;
+            document.getElementById("method2Meaning").innerText = `ความหมาย: ${method2Meaning}`;
 
             // Show the modal
             document.getElementById("resultModal").style.display = "block";
@@ -180,12 +182,12 @@
                 "3": "เลขมงคลที่ช่วยส่งเสริมความคิดสร้างสรรค์และโชคลาภ",
                 "4": "เลขมงคลสำหรับความเจริญรุ่งเรืองและความมั่นคง",
                 "5": "เลขมงคลที่จะนำพาคุณไปสู่การเปลี่ยนแปลงที่ดี",
-                "6": "เลขมงคลที่เหมาะกับการเริ่มต้นสิ่งใหม่ๆ และการก้าวหน้า",
-                "7": "เลขมงคลที่ช่วยให้คุณมีโชคลาภและความสำเร็จที่ยั่งยืน",
-                "8": "เลขมงคลที่ช่วยเสริมความมั่งคั่งและความก้าวหน้า",
-                "9": "เลขมงคลที่ให้ความสำเร็จและการบรรลุเป้าหมายในชีวิต"
+                "6": "เลขมงคลที่เหมาะกับการเริ่มต้นสิ่งใหม่ๆ ที่มีความสำเร็จ",
+                "7": "เลขมงคลที่เสริมสร้างความมั่งคั่งและความสุข",
+                "8": "เลขมงคลสำหรับการสร้างชื่อเสียงและความมั่งคั่ง",
+                "9": "เลขมงคลที่ช่วยเสริมสร้างความรอบคอบและความสำเร็จ"
             };
-            return meanings[result] || "หมายเลขนี้ไม่มีความหมายเฉพาะ";
+            return meanings[result];
         }
 
         function closeModal() {
