@@ -11,6 +11,24 @@
             text-align: center;
             padding: 50px;
         }
+        h1 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 18px;
+            color: white;
+        }
+        #numberInput {
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 2px solid #8B4513;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         button {
             background: #8B4513;
             color: white;
@@ -20,6 +38,7 @@
             cursor: pointer;
             margin: 10px;
             border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         button:hover {
             background: #6B3D2C;
@@ -64,7 +83,7 @@
 
     <h1>คำนวณเลขมงคลทะเบียนรถ 🚗✨</h1>
     <label for="numberInput">กรอกหมายเลขทะเบียนรถ:</label>
-    <input type="text" id="numberInput" placeholder="เช่น 4824">
+    <input type="text" id="numberInput" placeholder="เช่น 4824" maxlength="4">
     <br><br>
     <button onclick="calculateLuckyNumber()">คำนวณเลขมงคล</button>
 
@@ -73,7 +92,9 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>ผลการคำนวณ</h2>
-            <p id="calculationResult"></p>
+            <p id="numberEntered"></p>
+            <h3>ความหมายของเลขมงคล</h3>
+            <p id="meaning"></p>
             <h3>คำนวณแบบที่ 1:</h3>
             <p id="method1Result"></p>
             <h3>คำนวณแบบที่ 2:</h3>
@@ -92,15 +113,23 @@
 
             const numberArray = numberInput.split('').map(Number);
 
-            // Method 1
-            let method1Result = calculateMethod1(numberArray);
+            // แสดงเลขที่กรอก
+            document.getElementById("numberEntered").innerText = `เลขที่กรอกมา: ${numberInput}`;
 
-            // Method 2
+            // คำนวณผลลัพธ์
+            let method1Result = calculateMethod1(numberArray);
             let method2Result = calculateMethod2(numberArray);
 
+            // ผลลัพธ์สุดท้าย (เลือกผลลัพธ์ที่ได้จากทั้งสองวิธี)
+            let finalResult = method1Result.result; // สามารถเลือก method1 หรือ method2 ตามที่ต้องการ
+
+            // แสดงความหมายตามผลลัพธ์ที่ได้
+            let meaning = getMeaning(finalResult);
+            document.getElementById("meaning").innerText = meaning;
+
             // Show results in modal
-            document.getElementById("method1Result").innerText = method1Result;
-            document.getElementById("method2Result").innerText = method2Result;
+            document.getElementById("method1Result").innerText = method1Result.methodText;
+            document.getElementById("method2Result").innerText = method2Result.methodText;
 
             // Show the modal
             document.getElementById("resultModal").style.display = "block";
@@ -114,11 +143,13 @@
             let totalSum = firstPairSum + lastPairSum + middlePairSum;
             totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
 
-            return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
-                `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
-                `เลขคู่กลาง: ${numberArray[1]} + ${numberArray[2]} = ${middlePairSum}\n` +
-                `ผลรวม (วิธีที่ 1): ${firstPairSum} + ${lastPairSum} + ${middlePairSum} = ${totalSum}\n` +
-                `ผลลัพธ์: ${totalSum}`;
+            let result = totalSum;
+            let methodText = `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
+                             `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
+                             `เลขคู่กลาง: ${numberArray[1]} + ${numberArray[2]} = ${middlePairSum}\n` +
+                             `ผลรวม (วิธีที่ 1): ${firstPairSum} + ${lastPairSum} + ${middlePairSum} = ${totalSum}\n` +
+                             `ผลลัพธ์: ${totalSum}`;
+            return { result, methodText };
         }
 
         function calculateMethod2(numberArray) {
@@ -128,14 +159,33 @@
             let totalSum = firstPairSum + lastPairSum;
             totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
 
-            return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
-                `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
-                `ผลรวม (วิธีที่ 2): ${firstPairSum} + ${lastPairSum} = ${totalSum}\n` +
-                `ผลลัพธ์: ${totalSum}`;
+            let result = totalSum;
+            let methodText = `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
+                             `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
+                             `ผลรวม (วิธีที่ 2): ${firstPairSum} + ${lastPairSum} = ${totalSum}\n` +
+                             `ผลลัพธ์: ${totalSum}`;
+            return { result, methodText };
         }
 
         function sumDigits(num) {
             return num.toString().split('').map(Number).reduce((a, b) => a + b);
+        }
+
+        function getMeaning(result) {
+            // แสดงความหมายของเลขมงคลตามผลลัพธ์ที่ได้ (จาก 0-9)
+            let meanings = {
+                "0": "เลขมงคลที่ช่วยให้มีการเริ่มต้นใหม่และความสมดุล",
+                "1": "เลขมงคลที่ให้ความโชคดีและความสำเร็จในทุกด้าน",
+                "2": "เลขมงคลที่ส่งเสริมความรักและความสัมพันธ์",
+                "3": "เลขมงคลที่ช่วยส่งเสริมความคิดสร้างสรรค์และโชคลาภ",
+                "4": "เลขมงคลสำหรับความเจริญรุ่งเรืองและความมั่นคง",
+                "5": "เลขมงคลที่จะนำพาคุณไปสู่การเปลี่ยนแปลงที่ดี",
+                "6": "เลขมงคลที่เหมาะกับการเริ่มต้นสิ่งใหม่ๆ และการก้าวหน้า",
+                "7": "เลขมงคลที่ช่วยให้คุณมีโชคลาภและความสำเร็จที่ยั่งยืน",
+                "8": "เลขมงคลที่ช่วยเสริมความมั่งคั่งและความก้าวหน้า",
+                "9": "เลขมงคลที่ให้ความสำเร็จและการบรรลุเป้าหมายในชีวิต"
+            };
+            return meanings[result] || "หมายเลขนี้ไม่มีความหมายเฉพาะ";
         }
 
         function closeModal() {
