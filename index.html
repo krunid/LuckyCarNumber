@@ -6,11 +6,14 @@
     <title>คำนวณเลขมงคลทะเบียนรถ</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             position: relative;
             text-align: center;
             padding: 50px;
             color: white;
+            background: linear-gradient(135deg, #ff6a00, #ff6a00, #ff6600, #ff9900); /* สีพื้นหลังสดใส */
+            background-size: 400% 400%;
+            animation: gradientAnimation 5s ease infinite;
         }
 
         /* การตั้งค่าสำหรับพื้นหลังรถ */
@@ -21,49 +24,73 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://cdn.pixabay.com/photo/2020/11/06/19/08/car-5718678_640.jpg'); /* เปลี่ยน URL ให้เป็นลิงค์ของภาพที่ต้องการใช้ */
+            background-image: url('https://www.checkraka.com/uploaded/article/news/1362939/captain%20america_sfw.jpg'); /* เปลี่ยน URL ให้เป็นลิงค์ของภาพที่ต้องการใช้ */
             background-size: cover;
             background-position: center;
-            filter: blur(5px); /* ลดความคมชัด 60% */
+            filter: blur(5px); /* ลดความคมชัด */
             z-index: -1; /* วางให้ภาพอยู่ด้านหลังเนื้อหาทั้งหมด */
-            opacity: 0.4; /* เพิ่มความทึบให้กับภาพ */
+            opacity: 0.5; /* เพิ่มความทึบให้กับภาพ */
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 40px;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #ffffff;
         }
 
         label {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 15px;
         }
 
         #numberInput {
-            padding: 15px;
-            font-size: 18px;
-            margin-top: 10px;
+            padding: 20px;
+            font-size: 20px;
+            margin-top: 15px;
             border-radius: 10px;
-            border: 2px solid #8B4513;
-            width: 200px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ffffff;
+            width: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        #numberInput:focus {
+            outline: none;
+            border-color: #ff6a00;
+            box-shadow: 0 0 10px #ff6a00;
         }
 
         button {
-            background: #8B4513;
+            background: #ff6a00;
             color: white;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 20px 40px;
+            font-size: 22px;
             border: none;
             cursor: pointer;
-            margin: 10px;
+            margin: 20px;
             border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #6B3D2C;
+            background: #ff9900;
+            transform: scale(1.1);
         }
 
         .modal {
@@ -80,7 +107,7 @@
         }
 
         .modal-content {
-            background-color: #2e8b57;
+            background-color: #ff6a00;
             color: white;
             margin: 5% auto;
             padding: 20px;
@@ -195,12 +222,11 @@
             return { result, methodText };
         }
 
-        function sumDigits(num) {
-            return num.toString().split('').map(Number).reduce((a, b) => a + b);
+        function sumDigits(number) {
+            return number.toString().split('').map(Number).reduce((a, b) => a + b, 0);
         }
 
         function getMeaning(result) {
-            // แสดงความหมายของเลขมงคล
             const meanings = {
                 "0": "เลขมงคลที่นำความสุขและโชคลาภ",
                 "1": "เลขมงคลที่เสริมพลังในการเริ่มต้นใหม่",
