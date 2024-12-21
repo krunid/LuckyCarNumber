@@ -3,215 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เลขมงคลทะเบียนรถ</title>
+    <title>คำนวณเลขมงคลทะเบียนรถ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #ff7e5f, #feb47b, #ffcc00, #f4d03f);
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
             text-align: center;
-            color: white;
+            padding: 50px;
         }
-        h1 {
-            font-size: 36px;
-            margin-top: 20px;
-        }
-        .button {
-            background: linear-gradient(to top right, #6a4e23, #bc8a4f);
+        button {
+            background: #8B4513;
             color: white;
-            border: none;
             padding: 15px 30px;
             font-size: 18px;
+            border: none;
             cursor: pointer;
             margin: 10px;
+            border-radius: 5px;
         }
-        .button:hover {
-            background: linear-gradient(to top right, #bc8a4f, #6a4e23);
+        button:hover {
+            background: #6B3D2C;
         }
-        .input-section, .result-section {
-            margin-top: 20px;
-        }
-        .input-section input {
-            padding: 10px;
-            font-size: 20px;
-            width: 100px;
-            text-align: center;
-        }
-        .emoji {
-            font-size: 30px;
-        }
-        .meaning {
-            font-size: 20px;
-            margin-top: 20px;
-            color: yellow;
-        }
-        .calc-detail {
-            font-size: 18px;
-            color: #f0e68c;
-            text-align: left;
-            margin-top: 20px;
-        }
-        /* Fullscreen result section */
-        #resultModal {
+        .modal {
+            display: none;
             position: fixed;
-            top: 0;
+            z-index: 1;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 50px;
         }
-        #resultModalContent {
-            background: white;
-            color: black;
-            padding: 30px;
+        .modal-content {
+            background-color: #2e8b57;
+            color: white;
+            margin: 5% auto;
+            padding: 20px;
             border-radius: 10px;
-            max-width: 800px;
             width: 80%;
             text-align: left;
         }
-        #closeBtn {
-            background: red;
+        .close {
             color: white;
-            padding: 10px 20px;
-            border: none;
-            font-size: 18px;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
         }
-        .calc-section {
-            background-color: #2e8b57;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            color: white;
-            font-size: 18px;
+        .close:hover,
+        .close:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>เลขมงคลทะเบียนรถ 🚗</h1>
 
-    <div class="input-section">
-        <input type="text" id="regNum" placeholder="เลขทะเบียน" maxlength="4">
-        <br><br>
-        <button class="button" onclick="generateRandomNumber()">สุ่มเลขมงคล</button>
-    </div>
+    <h1>คำนวณเลขมงคลทะเบียนรถ 🚗✨</h1>
+    <label for="numberInput">กรอกหมายเลขทะเบียนรถ:</label>
+    <input type="text" id="numberInput" placeholder="เช่น 4824">
+    <br><br>
+    <button onclick="calculateLuckyNumber()">คำนวณเลขมงคล</button>
 
-    <div class="result-section">
-        <button class="button" onclick="calculateLuckyNumber()">คำนวณเลขมงคล</button>
-    </div>
-
-    <!-- Fullscreen Modal for displaying results -->
-    <div id="resultModal">
-        <div id="resultModalContent">
-            <div id="method1Result" class="calc-section"></div>
-            <div id="method2Result" class="calc-section"></div>
-            <button id="closeBtn" onclick="closeModal()">ปิด</button>
+    <!-- Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>ผลการคำนวณ</h2>
+            <p id="calculationResult"></p>
+            <h3>คำนวณแบบที่ 1:</h3>
+            <p id="method1Result"></p>
+            <h3>คำนวณแบบที่ 2:</h3>
+            <p id="method2Result"></p>
         </div>
     </div>
 
     <script>
-        // Function to generate a random lucky number
-        function generateRandomNumber() {
-            const randomNumber = Math.floor(Math.random() * 10000); // Generate a number between 0 and 9999
-            document.getElementById('regNum').value = randomNumber;
-        }
-
-        // Function to calculate lucky number based on the rules
         function calculateLuckyNumber() {
-            const regNum = document.getElementById('regNum').value;
-            if (regNum.length < 1 || regNum.length > 4) {
-                alert("กรุณากรอกเลขทะเบียนรถ");
-                return;
-            }
+            const numberInput = document.getElementById("numberInput").value;
+            const numberArray = numberInput.split('').map(Number);
 
-            let digits = regNum.split("").map(Number); // Convert the input to an array of digits
-            let calcDetail1 = '';
-            let calcDetail2 = '';
-            let luckyMeaning1 = '';
-            let luckyMeaning2 = '';
+            // Method 1
+            let method1Result = calculateMethod1(numberArray);
 
-            // Method 1: Calculation
-            let sum1 = 0;
+            // Method 2
+            let method2Result = calculateMethod2(numberArray);
 
-            // Add front digits
-            let frontSum1 = sumDigits(digits[0]);
-            sum1 += frontSum1;
-            calcDetail1 += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum1} <br>`;
+            document.getElementById("method1Result").innerText = method1Result;
+            document.getElementById("method2Result").innerText = method2Result;
 
-            // Add back digits
-            let backSum1 = sumDigits(digits[digits.length - 1]);
-            sum1 += backSum1;
-            calcDetail1 += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum1} <br>`;
-
-            // Add middle digits if any
-            if (digits.length > 2) {
-                let middleSum1 = sumDigits(digits[1]);
-                sum1 += middleSum1;
-                calcDetail1 += `เลขคู่กลาง: ${digits[1]} + 0 = ${middleSum1} <br>`;
-            }
-
-            // Final sum for Method 1
-            let method1Result = sumDigits(sum1);
-            calcDetail1 += `ผลรวม (วิธีที่ 1): ${sum1} -> ${method1Result} <br>`;
-            luckyMeaning1 = getMeaning(method1Result);
-
-            // Method 2: Calculation
-            let sum2 = 0; // Reset sum for Method 2
-
-            // Add front digits
-            let frontSum2 = sumDigits(digits[0]);
-            sum2 += frontSum2;
-            calcDetail2 += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum2} <br>`;
-
-            // Add back digits
-            let backSum2 = sumDigits(digits[digits.length - 1]);
-            sum2 += backSum2;
-            calcDetail2 += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum2} <br>`;
-
-            // Final sum for Method 2
-            let method2Result = sumDigits(sum2);
-            calcDetail2 += `ผลรวม (วิธีที่ 2): ${sum2} -> ${method2Result} <br>`;
-            luckyMeaning2 = getMeaning(method2Result);
-
-            // Display results in the modal
-            document.getElementById('method1Result').innerHTML = `<b>คำนวณแบบที่ 1</b><br>${calcDetail1}<b>ผลลัพธ์: </b>${method1Result}<br><b>ความหมาย:</b> ${luckyMeaning1}`;
-            document.getElementById('method2Result').innerHTML = `<b>คำนวณแบบที่ 2</b><br>${calcDetail2}<b>ผลลัพธ์: </b>${method2Result}<br><b>ความหมาย:</b> ${luckyMeaning2}`;
-
-            // Show modal
-            document.getElementById('resultModal').style.display = 'flex';
+            // Show the modal
+            document.getElementById("resultModal").style.display = "block";
         }
 
-        // Function to sum the digits of a number and apply the rule to get a result < 10
+        function calculateMethod1(numberArray) {
+            let firstPairSum = (numberArray[0] + numberArray[1]) > 9 ? sumDigits(numberArray[0] + numberArray[1]) : numberArray[0] + numberArray[1];
+            let lastPairSum = (numberArray[2] + numberArray[3]) > 9 ? sumDigits(numberArray[2] + numberArray[3]) : numberArray[2] + numberArray[3];
+            let middlePairSum = (numberArray[1] + numberArray[2]) > 9 ? sumDigits(numberArray[1] + numberArray[2]) : numberArray[1] + numberArray[2];
+
+            let totalSum = firstPairSum + lastPairSum + middlePairSum;
+            totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
+
+            return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
+                `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
+                `เลขคู่กลาง: ${numberArray[1]} + ${numberArray[2]} = ${middlePairSum}\n` +
+                `ผลรวม (วิธีที่ 1): ${firstPairSum} + ${lastPairSum} + ${middlePairSum} = ${totalSum}\n` +
+                `ผลลัพธ์: ${totalSum}`;
+        }
+
+        function calculateMethod2(numberArray) {
+            let firstPairSum = (numberArray[0] + numberArray[1]) > 9 ? sumDigits(numberArray[0] + numberArray[1]) : numberArray[0] + numberArray[1];
+            let lastPairSum = (numberArray[2] + numberArray[3]) > 9 ? sumDigits(numberArray[2] + numberArray[3]) : numberArray[2] + numberArray[3];
+
+            let totalSum = firstPairSum + lastPairSum;
+            totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
+
+            return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
+                `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
+                `ผลรวม (วิธีที่ 2): ${firstPairSum} + ${lastPairSum} = ${totalSum}\n` +
+                `ผลลัพธ์: ${totalSum}`;
+        }
+
         function sumDigits(num) {
-            if (num > 9) {
-                return num - 9; // Recalculate if the result is greater than 9
-            }
-            return num;
+            return num.toString().split('').map(Number).reduce((a, b) => a + b);
         }
 
-        // Function to get the meaning of the lucky number
-        function getMeaning(num) {
-            const meanings = {
-                1: "เลข 1 แสดงถึงการเริ่มต้นใหม่และความสำเร็จ",
-                2: "เลข 2 หมายถึงการร่วมมือและความสมดุล",
-                3: "เลข 3 แสดงถึงความคิดสร้างสรรค์และความสุข",
-                4: "เลข 4 หมายถึงการทำงานหนักและความมั่นคง",
-                5: "เลข 5 หมายถึงการเปลี่ยนแปลงและการพัฒนา",
-                6: "เลข 6 หมายถึงความรักและความสัมพันธ์ที่ดี",
-                7: "เลข 7 หมายถึงโชคดีและการค้นพบใหม่ๆ",
-                8: "เลข 8 แสดงถึงความมั่งคั่งและความเจริญรุ่งเรือง",
-                9: "เลข 9 แสดงถึงการบรรลุเป้าหมายและความสำเร็จสูงสุด"
-            };
-            return meanings[num] || "เลขมงคลหมายถึงความโชคดีและความเจริญรุ่งเรือง";
-        }
-
-        // Function to close the modal
         function closeModal() {
-            document.getElementById('resultModal').style.display = 'none';
+            document.getElementById("resultModal").style.display = "none";
         }
     </script>
 </body>
