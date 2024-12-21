@@ -57,6 +57,8 @@
   <div class="container">
     <h1>เลขมงคลทะเบียนรถ 🚗</h1>
     <p>เลือกวิธีการคำนวณ:</p>
+    <button onclick="selectMethod(1)">คำนวณ 1 🎯</button>
+    <button onclick="selectMethod(2)">คำนวณ 2 🔢</button>
     <button onclick="randomNumber()">แบบสุ่มตัวเลข 🎲</button>
     <button onclick="manualInput()">แบบเติมเลขเอง ✍️</button>
 
@@ -65,6 +67,13 @@
   </div>
 
   <script>
+    let calculationMethod = 1;
+
+    function selectMethod(method) {
+      calculationMethod = method;
+      alert(`เลือกคำนวณแบบที่ ${method}`);
+    }
+
     function randomNumber() {
       const number = Math.floor(Math.random() * 9999) + 1;
       calculateLuckyNumber(number, 'สุ่ม');
@@ -102,7 +111,13 @@
         return sum;
       });
 
-      let totalSum = intermediateSums.reduce((a, b) => a + b, 0);
+      let totalSum;
+      if (calculationMethod === 1) {
+        totalSum = intermediateSums.reduce((a, b) => a + b, 0);
+      } else {
+        totalSum = intermediateSums[0] + intermediateSums[1];
+      }
+
       while (totalSum > 9) totalSum = String(totalSum).split('').reduce((a, b) => a + Number(b), 0);
 
       displayResult(number, type, intermediateSums, totalSum);
@@ -112,11 +127,11 @@
       const resultDiv = document.getElementById('result');
       const meaning = getLuckyMeaning(totalSum);
       resultDiv.innerHTML = `
-        <p>วิธีการคำนวณแบบ: ${type}</p>
+        <p>วิธีการคำนวณแบบ: ${type} (${calculationMethod === 1 ? 'คำนวณ 1' : 'คำนวณ 2'})</p>
         <p>เลขทะเบียน: ${number}</p>
         <p>ผลรวมเลขคู่หน้า: ${steps[0] || 0}</p>
         <p>ผลรวมเลขคู่หลัง: ${steps[1] || 0}</p>
-        <p>ผลรวมเลขคู่กลาง: ${steps[2] || 0}</p>
+        ${calculationMethod === 1 ? `<p>ผลรวมเลขคู่กลาง: ${steps[2] || 0}</p>` : ''}
         <p>ผลรวมสุดท้าย: ${totalSum} 🌟</p>
         <div class="meaning">ความหมาย: ${meaning}</div>
       `;
