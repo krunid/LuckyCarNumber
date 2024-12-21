@@ -83,7 +83,10 @@
 
     <script>
         function calculateLuckyNumber() {
-            const numberInput = document.getElementById("numberInput").value;
+            let numberInput = document.getElementById("numberInput").value;
+
+            // หากหมายเลขทะเบียนน้อยกว่า 4 หลัก ให้เติม 0 ไปข้างหน้า
+            numberInput = numberInput.padStart(4, '0');  // เติม 0 ให้ครบ 4 หลัก
             const numberArray = numberInput.split('').map(Number);
 
             // Method 1
@@ -108,9 +111,6 @@
             let totalSum = firstPairSum + lastPairSum + middlePairSum;
             totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
 
-            // Ensure the result is 4 digits
-            totalSum = totalSum.toString().padStart(4, '0'); // เติม 0 ไปข้างหน้าหากมีน้อยกว่า 4 หลัก
-
             return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
                 `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
                 `เลขคู่กลาง: ${numberArray[1]} + ${numberArray[2]} = ${middlePairSum}\n` +
@@ -124,9 +124,6 @@
 
             let totalSum = firstPairSum + lastPairSum;
             totalSum = totalSum > 9 ? sumDigits(totalSum) : totalSum;
-
-            // Ensure the result is 4 digits
-            totalSum = totalSum.toString().padStart(4, '0'); // เติม 0 ไปข้างหน้าหากมีน้อยกว่า 4 หลัก
 
             return `เลขคู่หน้า: ${numberArray[0]} + ${numberArray[1]} = ${firstPairSum}\n` +
                 `เลขคู่หลัง: ${numberArray[2]} + ${numberArray[3]} = ${lastPairSum}\n` +
