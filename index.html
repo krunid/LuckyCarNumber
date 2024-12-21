@@ -67,7 +67,7 @@
             color: black;
             padding: 30px;
             border-radius: 10px;
-            max-width: 600px;
+            max-width: 800px;
             width: 80%;
             text-align: left;
         }
@@ -80,6 +80,14 @@
             cursor: pointer;
             border-radius: 5px;
             margin-top: 10px;
+        }
+        .calc-section {
+            background-color: #2e8b57;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -99,9 +107,8 @@
     <!-- Fullscreen Modal for displaying results -->
     <div id="resultModal">
         <div id="resultModalContent">
-            <div id="result"></div>
-            <div id="meaning" class="meaning"></div>
-            <div id="calcDetail" class="calc-detail"></div>
+            <div id="method1Result" class="calc-section"></div>
+            <div id="method2Result" class="calc-section"></div>
             <button id="closeBtn" onclick="closeModal()">ปิด</button>
         </div>
     </div>
@@ -122,57 +129,57 @@
             }
 
             let digits = regNum.split("").map(Number); // Convert the input to an array of digits
-            let calcResult = 0;
-            let calcDetail = '';
-            let luckyMeaning = '';
+            let calcDetail1 = '';
+            let calcDetail2 = '';
+            let luckyMeaning1 = '';
+            let luckyMeaning2 = '';
 
             // Method 1: Calculation
-            let sum = 0;
+            let sum1 = 0;
 
             // Add front digits
-            let frontSum = sumDigits(digits[0]);
-            sum += frontSum;
-            calcDetail += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum} <br>`;
+            let frontSum1 = sumDigits(digits[0]);
+            sum1 += frontSum1;
+            calcDetail1 += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum1} <br>`;
 
             // Add back digits
-            let backSum = sumDigits(digits[digits.length - 1]);
-            sum += backSum;
-            calcDetail += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum} <br>`;
+            let backSum1 = sumDigits(digits[digits.length - 1]);
+            sum1 += backSum1;
+            calcDetail1 += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum1} <br>`;
 
             // Add middle digits if any
             if (digits.length > 2) {
-                let middleSum = sumDigits(digits[1]);
-                sum += middleSum;
-                calcDetail += `เลขคู่กลาง: ${digits[1]} + 0 = ${middleSum} <br>`;
+                let middleSum1 = sumDigits(digits[1]);
+                sum1 += middleSum1;
+                calcDetail1 += `เลขคู่กลาง: ${digits[1]} + 0 = ${middleSum1} <br>`;
             }
 
             // Final sum for Method 1
-            let method1Result = sumDigits(sum);
-            calcDetail += `ผลรวม (วิธีที่ 1): ${sum} -> ${method1Result} <br>`;
-            luckyMeaning = getMeaning(method1Result);
+            let method1Result = sumDigits(sum1);
+            calcDetail1 += `ผลรวม (วิธีที่ 1): ${sum1} -> ${method1Result} <br>`;
+            luckyMeaning1 = getMeaning(method1Result);
 
             // Method 2: Calculation
-            sum = 0; // Reset sum for Method 2
+            let sum2 = 0; // Reset sum for Method 2
 
             // Add front digits
-            frontSum = sumDigits(digits[0]);
-            sum += frontSum;
-            calcDetail += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum} <br>`;
+            let frontSum2 = sumDigits(digits[0]);
+            sum2 += frontSum2;
+            calcDetail2 += `เลขคู่หน้า: ${digits[0]} + 0 = ${frontSum2} <br>`;
 
             // Add back digits
-            backSum = sumDigits(digits[digits.length - 1]);
-            sum += backSum;
-            calcDetail += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum} <br>`;
+            let backSum2 = sumDigits(digits[digits.length - 1]);
+            sum2 += backSum2;
+            calcDetail2 += `เลขคู่หลัง: ${digits[digits.length - 1]} + 0 = ${backSum2} <br>`;
 
             // Final sum for Method 2
-            let method2Result = sumDigits(sum);
-            calcDetail += `ผลรวม (วิธีที่ 2): ${sum} -> ${method2Result} <br>`;
-            luckyMeaning += `<br><b>ความหมายของเลขมงคลแบบที่ 2: </b>${getMeaning(method2Result)}`;
+            let method2Result = sumDigits(sum2);
+            calcDetail2 += `ผลรวม (วิธีที่ 2): ${sum2} -> ${method2Result} <br>`;
+            luckyMeaning2 = getMeaning(method2Result);
 
             // Display results in the modal
-            document.getElementById('result').innerHTML = `เลขมงคล (วิธีที่ 1): ${method1Result}<br>เลขมงคล (วิธีที่ 2): ${method2Result}`;
-            document.getElementById('meaning').innerHTML = `ความหมาย: ${luckyMeaning}`;
-            document.getElementById('calcDetail').innerHTML = `วิธีคำนวณ: <br>${calcDetail}`;
+            document.getElementById('method1Result').innerHTML = `<b>คำนวณแบบที่ 1</b><br>${calcDetail1}<b>ผลลัพธ์: </b>${method1Result}<br><b>ความหมาย:</b> ${luckyMeaning1}`;
+            document.getElementById('method2Result').innerHTML = `<b>คำนวณแบบที่ 2</b><br>${calcDetail2}<b>ผลลัพธ์: </b>${method2Result}<br><b>ความหมาย:</b> ${luckyMeaning2}`;
 
             // Show modal
             document.getElementById('resultModal').style.display = 'flex';
